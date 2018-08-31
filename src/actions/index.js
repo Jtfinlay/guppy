@@ -3,7 +3,13 @@ import uuid from 'uuid/v1';
 
 import { loadAllProjectDependencies } from '../services/read-from-disk.service';
 
-import type { Project, ProjectsMap, Task, Dependency } from '../types';
+import type {
+  Project,
+  ProjectsMap,
+  Task,
+  Dependency,
+  QueuedDependency,
+} from '../types';
 
 //
 //
@@ -206,7 +212,7 @@ export const deleteDependency = (
 
 export const installDependenciesStart = (
   projectId: string,
-  dependencies: Array<Dependency>
+  dependencies: Array<QueuedDependency>
 ) => ({
   type: INSTALL_DEPENDENCIES_START,
   dependencies,
@@ -215,12 +221,13 @@ export const installDependenciesStart = (
 export const installDependencyStart = (
   projectId: string,
   name: string,
-  version: string
-) => installDependenciesStart(projectId, [{ name, version }]);
+  version: string,
+  updating?: boolean
+) => installDependenciesStart(projectId, [{ name, version, updating }]);
 
 export const installDependenciesError = (
   projectId: string,
-  dependencies: Array<Dependency>
+  dependencies: Array<QueuedDependency>
 ) => ({
   type: INSTALL_DEPENDENCIES_ERROR,
   projectId,
@@ -238,7 +245,7 @@ export const installDependenciesFinish = (
 
 export const uninstallDependenciesStart = (
   projectId: string,
-  dependencies: Array<Dependency>
+  dependencies: Array<QueuedDependency>
 ) => ({
   type: UNINSTALL_DEPENDENCIES_START,
   dependencies,
@@ -249,7 +256,7 @@ export const uninstallDependencyStart = (projectId: string, name: string) =>
 
 export const uninstallDependenciesError = (
   projectId: string,
-  dependencies: Array<Dependency>
+  dependencies: Array<QueuedDependency>
 ) => ({
   type: UNINSTALL_DEPENDENCIES_ERROR,
   projectId,
@@ -258,7 +265,7 @@ export const uninstallDependenciesError = (
 
 export const uninstallDependenciesFinish = (
   projectId: string,
-  dependencies: Array<Dependency>
+  dependencies: Array<QueuedDependency>
 ) => ({
   type: UNINSTALL_DEPENDENCIES_FINISH,
   projectId,
