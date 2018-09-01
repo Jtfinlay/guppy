@@ -215,6 +215,7 @@ export const installDependenciesStart = (
   dependencies: Array<QueuedDependency>
 ) => ({
   type: INSTALL_DEPENDENCIES_START,
+  projectId,
   dependencies,
 });
 
@@ -248,6 +249,7 @@ export const uninstallDependenciesStart = (
   dependencies: Array<QueuedDependency>
 ) => ({
   type: UNINSTALL_DEPENDENCIES_START,
+  projectId,
   dependencies,
 });
 
